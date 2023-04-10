@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Newsitem from './Newsitem'
 
 export class News extends Component {
-    article=  [
+    article = [
         {
             "source": {
                 "id": "espn-cric-info",
@@ -30,9 +30,9 @@ export class News extends Component {
             "content": "Last week, we at ESPNcricinfo did something we have been thinking of doing for eight years now: pretend-live ball-by-ball commentary for a classic cricket match. We knew the result, yes, but we tried… [+6823 chars]"
         }
     ]
-    constructor(){
+    constructor() {
         super();
-        this.state={
+        this.state = {
             article: this.article,
             loading: false
         }
@@ -42,15 +42,16 @@ export class News extends Component {
             <div className='container'>
                 <h2>NewsMonkey - Top News</h2>
                 <div className="row">
-                    <div className="col-md-4">
-                        <Newsitem title='mytitle' description='mydesc' imageUrl={this.article[1].urlToImage} />
-                    </div>
-                    <div className="col-md-4">
-                        <Newsitem title='mytitle' description='mydesc' />
-                    </div>
-                    <div className="col-md-4">
-                        <Newsitem title='mytitle' description='mydesc' />
-                    </div>
+                    {/* using map function of array collection to iterate the array and fetch all the data from it.
+                        a function must be passed as a parameter to the map funtion so we created an arrow function. */}
+                    {this.state.article.map((element) => {
+                        return (<div className="col-md-4" key={element.url}>
+                            {/* using slice method to restrict the number of characters on the card */}
+                            <Newsitem  title={element.title.slice(0,45)} description={element.description.slice(0,88)} imageUrl={element.urlToImage} newsUrl={element.url}/>
+                        </div>
+                        )
+                    })
+                    }
                 </div>
 
             </div>
