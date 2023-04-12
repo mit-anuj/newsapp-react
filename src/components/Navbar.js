@@ -3,9 +3,9 @@ import React, { Component } from 'react'
 export default class Navbar extends Component {
 
   render() {
-    return (
-      <div>
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    return ( 
+      <div className='bg-body-dark'>
+        <nav className="navbar navbar-expand-lg bg-body-tertiary ">
   <div className="container-fluid">
     <a className="navbar-brand" href="/">Navbar</a>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,7 +19,14 @@ export default class Navbar extends Component {
         <li className="nav-item">
           <a className="nav-link" href="/about">About</a>
         </li>
-        
+          <li><a className="nav-link" href="/about">Business</a></li>
+          <li><a className="nav-link" href="/about">Entertainment</a></li>
+          <li><a className="nav-link" href="/about">General</a></li>
+          <li><a className="nav-link" href="/about">Health</a></li>
+          <li><a className="nav-link" href="/about">Science</a></li>
+          <li><a className="nav-link" href="/about">Sports</a></li>
+          <li><a className="nav-link" href="/about">Technology</a></li>
+
       </ul>
     </div>
   </div>

@@ -1,8 +1,18 @@
 import React, { Component } from "react";
 import Newsitem from "./Newsitem";
 import Spinner from "./Spinner";
+import PropTypes from 'prop-types'
+
 
 export class News extends Component {
+  static propDefault ={
+    pageSize: 6,
+    country: 'in'
+  }
+  static propTypes = {
+    pageSize: PropTypes.number,
+    country: PropTypes.string
+  }
   constructor() {
     super();
     this.state = {
@@ -16,7 +26,7 @@ export class News extends Component {
 
   async componentDidMount() {
     try {
-      let url = `https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=9225e6d8b8c04de6b9b4d0aaf3d213cc&page=1&pageSize=${this.props.pageSize}`;
+      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=9225e6d8b8c04de6b9b4d0aaf3d213cc&page=1&pageSize=${this.props.pageSize}`;
       this.setState({
         loading: true
       })
@@ -41,7 +51,7 @@ export class News extends Component {
   handlePrevCase = async () => {
     try {
       //! here we are adding 1 to the page so that we can jump to the next page.
-      let url = `https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=9225e6d8b8c04de6b9b4d0aaf3d213cc&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`;
+      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=9225e6d8b8c04de6b9b4d0aaf3d213cc&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`;
       this.setState({
         loading: true
       })
@@ -59,7 +69,7 @@ export class News extends Component {
   }
   handleNextCase =async ()=>{
     try {
-      let url=`https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=9225e6d8b8c04de6b9b4d0aaf3d213cc&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`;
+      let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=9225e6d8b8c04de6b9b4d0aaf3d213cc&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`;
       this.setState({
         loading : true
       })
