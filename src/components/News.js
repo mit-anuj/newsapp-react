@@ -4,8 +4,9 @@ import Spinner from "./Spinner";
 import PropTypes from 'prop-types'
 
 
+
 export class News extends Component {
-  static propDefault ={
+  static propDefault = {
     pageSize: 6,
     country: 'in'
   }
@@ -67,17 +68,17 @@ export class News extends Component {
       console.log("something went wrong");
     }
   }
-  handleNextCase =async ()=>{
+  handleNextCase = async () => {
     try {
-      let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=9225e6d8b8c04de6b9b4d0aaf3d213cc&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`;
+      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=9225e6d8b8c04de6b9b4d0aaf3d213cc&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`;
       this.setState({
-        loading : true
+        loading: true
       })
-      let data= await fetch(url);
+      let data = await fetch(url);
       let parsedData = await data.json();
       this.setState({
         article: parsedData.articles,
-        loading : false,
+        loading: false,
         page: this.state.page + 1
       })
 
