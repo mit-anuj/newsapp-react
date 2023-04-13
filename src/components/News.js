@@ -63,6 +63,7 @@ export class News extends Component {
         //! here this will update the value of page
         page: this.state.page - 1,
         loading: false,
+        
       });
     } catch (e) {
       console.log("something went wrong");
@@ -100,7 +101,7 @@ export class News extends Component {
               return (
                 <div className="col-md-4" key={element.url}>
                   {/* using slice method to restrict the number of characters on the card */}
-                  <Newsitem title={element.title ? element.title.slice(0, 45) : ""} description={element.description ? element.description.slice(0, 88) : ""} imageUrl={element.urlToImage} newsUrl={element.url} />
+                  <Newsitem title={element.title ? element.title.slice(0, 45) : ""} description={element.description ? element.description.slice(0, 88) : ""} imageUrl={element.urlToImage} newsUrl={element.url} date={element.publishedAt} author={element.author}/>
                 </div>
               )
             })}
