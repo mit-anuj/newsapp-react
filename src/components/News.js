@@ -27,14 +27,19 @@ export class News extends Component {
     document.title = `NewsMonkey-${this.props.category}`
   }
   async updateNews() {
+    this.props.setProgress(10)
     try {
-      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=9225e6d8b8c04de6b9b4d0aaf3d213cc&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
       this.setState({
         loading: true
       })
+    this.props.setProgress(30)
+
       let data = await fetch(url);
       // if(data.status >= 400  && data.status <= 600) throw data;
       let parsedData = await data.json();
+    this.props.setProgress(70)
+
       this.setState({
         article: parsedData.articles,
         totalResult: parsedData.totalResults,
@@ -47,6 +52,8 @@ export class News extends Component {
         loading: false
       });
     }
+    this.props.setProgress(100)
+
   }
 
   async componentDidMount() {
@@ -60,11 +67,8 @@ export class News extends Component {
     // ! we are not calling the updateNews function because we need to concatenate the new articles with the current articles so in order to do that we are writing the custom login
     try {
       let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=9225e6d8b8c04de6b9b4d0aaf3d213cc&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-      // this.setState({
-      //   loading: true
-      // })
+
       let data = await fetch(url);
-      // if(data.status >= 400  && data.status <= 600) throw data;
       let parsedData = await data.json();
       this.setState({
         // ! we need to concatenate the previous data with the new data so that it will not replace the existing data.
@@ -81,55 +85,41 @@ export class News extends Component {
     }
   }
 
-    // handles the previous button.
-    // handlePrevCase = async () => {
-    //   this.setState({ page: this.state.page - 1 })
-    //   this.updateNews();
-    // }
-
-    // handleNextCase = async () => {
-    //   this.setState({ page: this.state.page + 1 })
-    //   this.updateNews()
-    // }
-
-    render() {
-      return (
-        <div className="container">
-          <h2 className="text-center">NewsMonkey - Top News</h2>
-          {this.state.loading && <Spinner />}
-          <InfiniteScroll
-            dataLength={this.state.article.length}
-            next={this.fetchMoreData}
-            hasMore={this.state.article.length < this.state.totalResult}
-            loader={<Spinner />}
-            endMessage={
-              <p style={{ textAlign: "center" }}>
-                <b>Yay! You have seen it all</b>
-              </p>
-            }
-          >
-            {/* added this div so that we can remove the horizontal slider from the bottom */}
-            <div className="container">
-              <div className="row">
-                {/* using map function of array collection to iterate the array and fetch all the data from it.
+  render() {
+    return (
+      <div className="container">
+        <h2 className="text-center">NewsMonkey - Top News</h2>
+        {this.state.loading && <Spinner />}
+        {/* implementing infinite scroll from here */}
+        <InfiniteScroll
+          dataLength={this.state.article.length}
+          next={this.fetchMoreData}
+          hasMore={this.state.article.length < this.state.totalResult}
+          loader={<Spinner />}
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+        >
+          {/* added this div so that we can remove the horizontal slider from the bottom */}
+          <div className="container">
+            <div className="row">
+              {/* using map function of array collection to iterate the array and fetch all the data from it.
                         a function must be passed as a parameter to the map funtion so we created an arrow function. */}
-                {this.state.article.map((element) => {
-                  return (
-                    <div className="col-md-4" key={element.url}>
-                      {/* using slice method to restrict the number of characters on the card */}
-                      <Newsitem title={element.title ? element.title.slice(0, 45) : ""} description={element.description ? element.description.slice(0, 88) : ""} imageUrl={element.urlToImage} newsUrl={element.url} date={element.publishedAt} author={element.author} />
-                    </div>
-                  )
-                })}
-              </div>
+              {this.state.article.map((element) => {
+                return (
+                  <div className="col-md-4" key={element.url}>
+                    {/* using slice method to restrict the number of characters on the card */}
+                    <Newsitem title={element.title ? element.title.slice(0, 45) : ""} description={element.description ? element.description.slice(0, 88) : ""} imageUrl={!element.urlToImage ? "https://d3hnfqimznafg0.cloudfront.net/images/news/ImageForNews_33264_16813708189423484.jpg": element.urlToImage} newsUrl={element.url} date={element.publishedAt} author={element.author} />
+                  </div>
+                )
+              })}
             </div>
-          </InfiniteScroll>
-          {/* <div className="container d-flex justify-content-between">
-          <button disabled={this.state.page <= 1} type="button" className="btn btn-dark" onClick={this.handlePrevCase}>&larr; Previous </button>
-          <button disabled={this.state.page + 1 > Math.ceil(this.state.totalResult / this.props.pageSize)} type="button" className="btn btn-dark" onClick={this.handleNextCase}> Next &rarr;</button>
-        </div> */}
-        </div>
-      );
-    }
+          </div>
+        </InfiniteScroll>
+      </div>
+    );
   }
+}
 export default News;
